@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       
+       <template v-if="type == 'name'">
+           <label>username</label>
+           <input placeholder="username" key="name">
+       </template> 
+       <template v-else>
+           <label>email</label>
+           <input placeholder="email" key="email">
+       </template>
+       <button @click="click">变换</button>
+
+       <p v-show="condition">show</p>
+
+       <hr>
+       <h2>{{message}}</h2>
+       <h2>{{reversedMessage}}</h2>
+       <p>{{html}}</p>
+       <p v-html="html"></p>
+       <input  type="text" v-model="message" v-bind:id="id">
+       <h2 v-if="condition">看见</h2>
+       <p v-bind:id="'小明' + message"></p>
+       <ul v-for="item in items">
+           <li>{{item}}</li>
+       </ul>
+       <input v-model="message">
+       <p>{{message}}</p>
+       <p :class="{active:isclose,'text-danger':haserror}">绑定属性</p>
+       <h2 v-if="message == '你好'">√</h2>
+       <h2 v-else>×</h2>
+       <button v-on:click="rever">逆转消息</button> 
+       <hr>
+
+    </div>
+    
+    <script src="js/vue.js"></script>
+    <script>
+     
+        var vm = new Vue({
+            el : '#app',
+            data : {
+                message: '你好',
+                items:['aa','bb','cc'],
+                condition:false,
+                id:'1001',
+                html:"<span style='color:red'>this is red</span>",
+                isclose:true,
+                haserror:true,
+                type:"name"
+            },
+            methods:{
+                rever:function(){
+                    // 获取当前容器vm对象的message属性，进行逆转
+                    this.message = this.message.split('').reverse().join('')
+                },
+                click:function(){
+                    this.type = "email"
+                }
+            },
+            //直接执行，增加reversedMessage属性设置函数  计算属性默认只有getter
+            computed:{
+                //getter  在函数传参，那么就会变成setter
+                reversedMessage:function(){
+                    this.message.split('').reverse().join('')
+                }
+            },
+            //异步执行，当依赖的属性的值发生改变时触发
+            watch:{
+                message:function(newmessage,oldmessage){
+                    console.log(newmessage + "-->" + oldmessage);    
+
+                    this.message = "hahadfsa"
+
+                }
+                
+            }
+        })
+      
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+   
+   <h2>Vue 组件</h2>
+   <div id="app">
+        <todo>sad<hello></hello></todo>
+        <hello></hello>
+   </div>
+    <div id="app2">
+        <!-- 使用全局注册中返回的函数值，不能使用{{xxx}}去直接获取 -->
+        <!-- 在定义好的组件中有定义好的class属性时，在使用的时候需要有自己具体的class属性时会自动合并 -->
+        <todo :like="2" class="sss"></todo>
+
+        <!-- 定义组件模板中的占位符的具体值是什么 -->
+        <counter haha="dasdasdad"></counter>
+
+        <init math="countj"></init>
+    </div>
+
+
+    <!-- 定义js模板 -->
+    <script type="text/x-template" id="template">
+        <div class="todo">{{message}}<slot/></div>
+    </script>
+
+    <script src="js/vue.js"></script>
+    <script>
+        //即使使用全局注册，也需要将标签放入el指定的容器中
+        Vue.component("todo",{
+           //全局注册中的data必须是函数
+            data:function(){
+                return{
+                    message:'你好'
+                }
+            },
+            // template:"<p> HI<slot/></p>"
+            //使用js模板
+            template:"#template"
+        })
+        
+        Vue.component("counter",{
+            //定义props用来传值，可以传任意东西，props中定义的是传值的名称    
+            props:["haha"],
+            //在组件的模板中可以使用{{props中定义的名称}}去调用，相当于占位符
+            //这时候是没有值的，需要在使用该组件的时候进行赋值
+            template:"<p>hehe{{haha}}</p>"
+        })
+        
+
+        Vue.component("init",{
+            props:{
+                math:{
+                    type:Number,
+                }
+            },
+            data:function(){
+                return{
+                    count:this.math
+                }
+            },
+            template:"<p>aaaaaa</p>"
+        })
+        
+        var vm = new Vue({
+            el:'#app',
+            data:{
+              array:[11,22,33]      
+            },
+            //使用局部注册，只能在指定的容器中使用
+            components:{
+                'hello':{
+                    template:"<p>hello</p>"
+                }
+            }
+        })
+
+        var vm2 = new Vue({
+            el:"#app2"
+        })
+    </script>
+</body>
+</html>
