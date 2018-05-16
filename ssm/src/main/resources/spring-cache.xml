@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <!--开启基于注解的缓存机制-->
+    <cache:annotation-driven cache-manager="cacheManager"/>
+
+    <!--spring-data-redis-->
+    <!--配置缓存管理器-->
+    <bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+       <!--将redisTemplate通过构造注入-->
+        <constructor-arg name="redisOperations" ref="redisTemplate"/>
+        <!--设置-->
+        <property name="expires">
+            <map>
+                <entry key="kaola" value="20"/>
+            </map>
+        </property>
+    </bean>
+
+
+    <!--jedis-->
+    <!--配置缓存管理器-->
+   <!-- <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        &lt;!&ndash;配置注解&ndash;&gt;
+        <property name="caches">
+            &lt;!&ndash;缓存存储方案&ndash;&gt;
+            <bean id="kaola" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
+        </property>
+    </bean>-->
+
+    <!--ehcache缓存管理器(本地)-->
+   <!-- <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="cacheManagerFactoryBean"/>
+    </bean>
+
+    &lt;!&ndash;配置ehcache&ndash;&gt;
+    <bean id="cacheManagerFactoryBean" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:ehcache.xml"/>
+    </bean>-->
+</beans>
