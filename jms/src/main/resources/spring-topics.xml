@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd">
+
+    <!--创建连接工厂-->
+    <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616"/>
+    </bean>
+
+    <!--创建spring适配的工厂-->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory" ref="activeMQConnectionFactory"/>
+    </bean>
+
+    <!--创建jmsTemplate-->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+    </bean>
+
+    <!--配置目的地对象 topic对象-->
+    <bean id="topic" class="org.apache.activemq.command.ActiveMQTopic">
+        <!--主题名称-->
+        <constructor-arg name="name" value="spring-topic"/>
+    </bean>
+
+    <!--配置监听器-->
+    <bean id="listener" class="com.kaisheng.listener.JmsListener"/>
+    <bean id="listener2" class="com.kaisheng.listener.JmsListener2"/>
+
+    <jms:listener-container destination-type="topic" connection-factory="connectionFactory"
+                            concurrency="3-10" acknowledge="client">
+        <jms:listener destination="spring-topic" ref="listener"/>
+        <jms:listener destination="spring-topic" ref="listener2"/>
+    </jms:listener-container>
+
+    <!--监听器容器-->
+    <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destination" ref="topic"/>
+        <property name="messageListener" ref="listener"/>
+    </bean>
+</beans>
