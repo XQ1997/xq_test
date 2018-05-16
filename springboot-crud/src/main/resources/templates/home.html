@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+</head>
+<body>
+    <div class="container">
+        <h2>product</h2>
+        <a th:href="@{/product/new}" class="btn btn-info pull-right">新增商品</a>
+        <div th:if="${message} != null">
+            <div class="alert alert-success">[[${message}]]</div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>商品名称</th>
+                <th>价格</th>
+                <th>市场价</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+                <th>#</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="product:${pageInfo.list}">
+                    <td><a th:href="@{/product/{id}(id=${product.id})}">[[${product.productName}]]</a></td>
+                    <td>[[${product.productPrice}]]</td>
+                    <td>[[${product.productMarketPrice}]]</td>
+                    <td>[[${product.startTime}]]</td>
+                    <td>[[${product.endTime}]]</td>
+                    <td>
+                        <a th:href="@{/product/{id}/edit(id=${product.id})}">编辑</a>
+                        <a th:href="@{/product/{id}/del(id=${product.id})}">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ul id="pagination-demo" class="pagination pull-right"></ul>
+    </div>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.twbsPagination.js"></script>
+<script>
+    $(function() {
+        //分页
+        $('#pagination-demo').twbsPagination({
+            totalPages:[[${pageInfo.pages}]],
+            visiblePages: 10,
+            first: '首页',
+            last: '末页',
+            prev: '上一页',
+            next: '下一页',
+            href: "pageNo={{number}}"
+        });
+    })
+</script>
+</body>
+</html>
