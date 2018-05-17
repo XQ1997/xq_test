@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=div#, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 定义超链接 -->
+        <!-- 静态路由 -->
+        <router-link to="/new">New</router-link>
+        <!-- 动态路由 -->
+        <router-link to="/user/1">user</router-link>
+         <!-- 点击按钮时触发编程式导航的事件进行跳转 -->
+         <button @click="to">跳转</button>
+        <!-- 将路由(链接)匹配到的组件渲染到这 -->
+        <router-view></router-view>
+    </div>
+    <!-- 使用路由，必须先加载vue.js，再加载vue-router.js -->
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+   
+    <script>
+        // 定义组件
+        var user = {
+            //定义组件时，可以使用{{$route.params.占位的变量名}}去获得连接中的变量实现动态
+            template:"<h2>user:{{$route.params.id}}</h2>"
+        };
+        //创建router实例，并指定路由映射对象
+        var router  = new VueRouter({
+            // 定义路径和对象的映射
+            routes: [
+                {   
+                    //进行编程式导航时，push一个对象要使用name属性时需要定义映射时添加name属性值
+                    name:'user',
+                    // 这里的path变量，可以设置（:变量名）进行占位
+                    path:'/user/:id',
+                    component:user
+                }    
+            ]
+        });
+
+        var vm = new Vue({
+            el : '#app',
+            // 将vueRouter对象绑定到vue对象上
+            router:router,
+            methods:{
+                to:function(){
+                    //编程式导航，进行跳转，相当于router-link
+                    //this.$router.push("/new");
+                    //this.$router.push("/user/5")
+                    this.$router.push({name:"user",params:{id:6}})
+                }
+            }
+        })
+    </script>
+</body>
+</html>
