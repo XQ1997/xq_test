@@ -70,7 +70,7 @@
             computed:{
                 //getter  在函数传参，那么就会变成setter
                 reversedMessage:function(){
-                    this.message.split('').reverse().join('')
+                    this.message = this.message.split('').reverse().join('')
                 }
             },
             //异步执行，当依赖的属性的值发生改变时触发
@@ -78,7 +78,7 @@
                 message:function(newmessage,oldmessage){
                     console.log(newmessage + "-->" + oldmessage);    
 
-                    this.message = "hahadfsa"
+                    this.message = newmessage;
 
                 }
                 

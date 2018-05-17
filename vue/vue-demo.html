@@ -21,7 +21,9 @@
         <!-- 定义组件模板中的占位符的具体值是什么 -->
         <counter haha="dasdasdad"></counter>
 
-        <init math="countj"></init>
+        <init></init>
+
+        <math></math>
     </div>
 
 
@@ -66,6 +68,21 @@
                 }
             },
             template:"<p>aaaaaa</p>"
+        })
+
+        Vue.component('math',{
+            template:"<div>{{counter}}<button @click='increment'>点击</button></div>",
+            data:function(){
+                return{
+                    counter:100
+                }
+            },
+            methods:{
+                increment:function(){
+                    this.counter++;
+                    this.$emit('abc');
+                }
+            }
         })
         
         var vm = new Vue({
