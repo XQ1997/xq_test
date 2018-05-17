@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h2>使用axios，axios是基于promise的http库</h2>
+    <div id="app">
+        <h2>电影的名称：{{movie.name}}</h2>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                movie:{}
+            },
+           //第二种，使用es6的箭头函数
+           mounted:function(){
+             var url = "http://localhost:9090/movie/1";
+             //使用es6的箭头函数可以解决this的上下文问题
+             axios.get(url).then(response => {
+                 //使用箭头函数之后，这里的this指的就是movie对象
+                 this.movie = response.data;
+             }).catch(error => {
+                 alert("系统异常：" + error.message);
+             })
+           }
+           
+           
+            //第一种
+             //编译好的html挂载到页面完成后执行的事件钩子，此钩子函数中一般会做一些ajax请求获取数据进行数据初始化
+             //mounted在整个实例中只会执行一次
+            // mounted:function(){
+            //     var url = "http://localhost:9090/movie/1";
+                //在事件刚开始，this指的是movie对象
+            //     var that = this;
+                 //response不是服务器返回的结果，而是一个特殊的对象
+            //     axios.get(url).then(function(response){
+                     //方法里的this指的是axios对象，而不是movie对象
+            //         that.movie = response.data;
+
+            //         alert("电影名称为" + response.data.name)
+                    
+            //     }).catch(function(error){
+            //         alert("系统异常：" + error)
+            //     })
+            // }
+        })
+    </script> 
+</body>
+</html>
