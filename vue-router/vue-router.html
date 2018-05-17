@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=div#, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 定义超链接 -->
+        <router-link to="/home">Home</router-link>
+        <router-link to="/new">New</router-link>
+        <router-link to="/page">Page</router-link>
+        <!-- 将路由(链接)匹配到的组件渲染到这 -->
+        <router-view></router-view>
+    </div>
+    <!-- 使用路由，必须先加载vue.js，再加载vue-router.js -->
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+   
+    <script>
+        // 定义组件
+        var home = {
+            template:"<h2>home</h2>"
+        };
+        var news = {
+            template:"<h2>new</h2>"
+        };
+        var page = {
+            template:"<h2>page</h2>"
+        };
+        //创建router实例，并指定路由映射对象
+        var router  = new VueRouter({
+            // 定义路径和对象的映射
+            routes: [
+                {
+                    path:'/home',
+                    component:home
+                },
+                {
+                    path:'/new',
+                    component:news
+                },
+                {
+                    path:'/page',
+                    component:page
+                }    
+            ]
+        });
+
+        var vm = new Vue({
+            el : '#app',
+            // 将vueRouter对象绑定到vue对象上
+            router:router
+            
+        })
+    </script>
+</body>
+</html>
