@@ -25,8 +25,14 @@
     <script>
         // 定义组件
         var user = {
-            //定义组件时，可以使用{{$route.params.占位的变量名}}去获得连接中的变量实现动态
-            template:"<h2>user:{{$route.params.id}}</h2>"
+            //定义组件时，老版本可以使用{{$route.params.占位的变量名}}去获得连接中的变量实现动态
+            template:"<h2>user:{{$route.params.id}}</h2>",
+            //2.2版本引入beforeRouteUpdate守卫 
+            //通过该事件可以处理router的变化事件
+            beforeRouteUpdate:function(to,from,next){
+                console.log(from.path + "->" + to.path);
+                next();//交给下一步处理 不写next,就不响应
+            }
         };
         //创建router实例，并指定路由映射对象
         var router  = new VueRouter({
