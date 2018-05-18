@@ -1,5 +1,5 @@
 {
-  "name": "vue-cli",
+  "name": "vue-crud",
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "greentea1 <2645564458@qq.com>",
@@ -10,6 +10,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "element-ui": "^2.3.8",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "vue": "^2.5.2",
