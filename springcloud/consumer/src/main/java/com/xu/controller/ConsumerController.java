@@ -1,6 +1,8 @@
 package com.xu.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +13,22 @@ public class ConsumerController {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    /**
+     * 第一种，使用LoadBalancerClient接口负载均衡的功能获取serviceInstance对象获取服务的名字
+     */
+    @Autowired
+    private LoadBalancerClient loadBalancerClient;
+
+    @GetMapping("/movie/{id}")
+    public String shop(@PathVariable Integer id){
+        ServiceInstance serviceInstance = loadBalancerClient.choose("MOVIE-PROVIDER");
+        //第一种               主机ip+端口    进行硬编码
+        //String url = "http://"+serviceInstance.getHost()+":"+serviceInstance.getPort()+"/movie/"+id;
+        //第二种  直接从集群中获取
+        String url = serviceInstance.getUri().toString() + "/movie" + id;
+        return restTemplate.getForObject(url,String.class);
+    }
 
     /**
      * 消费提供者提供的固定ip，与Eureka无关
