@@ -22,11 +22,13 @@ public class ConsumerController {
 
     @GetMapping("/movie/{id}")
     public String shop(@PathVariable Integer id){
+        //根据服务名称从Eureka上发现服务的提供者，并使用负载均衡的方式返回提供者的地址
         ServiceInstance serviceInstance = loadBalancerClient.choose("MOVIE-PROVIDER");
         //第一种               主机ip+端口    进行硬编码
         //String url = "http://"+serviceInstance.getHost()+":"+serviceInstance.getPort()+"/movie/"+id;
         //第二种  直接从集群中获取
-        String url = serviceInstance.getUri().toString() + "/movie" + id;
+        String url = serviceInstance.getUri().toString() + "/movie/" + id;
+        System.out.println("id:" + id);
         return restTemplate.getForObject(url,String.class);
     }
 
