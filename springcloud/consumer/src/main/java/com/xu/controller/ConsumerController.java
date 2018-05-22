@@ -13,14 +13,25 @@ public class ConsumerController {
 
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private LoadBalancerClient loadBalancerClient;
+
+    /**
+     * 使用ribbon客户端负载均衡器
+     * @param id
+     * @return
+     */
+    @GetMapping("/movie/{id:\\d+}")
+    public String shop(@PathVariable Integer id){
+        String url = "http://MOVIE-PROVIDER/movie/" + id;
+        return restTemplate.getForObject(url,String.class);
+    }
+
 
     /**
      * 第一种，使用LoadBalancerClient接口负载均衡的功能获取serviceInstance对象获取服务的名字
      */
-    @Autowired
-    private LoadBalancerClient loadBalancerClient;
-
-    @GetMapping("/movie/{id}")
+  /*  @GetMapping("/movie/{id}")
     public String shop(@PathVariable Integer id){
         //根据服务名称从Eureka上发现服务的提供者，并使用负载均衡的方式返回提供者的地址
         ServiceInstance serviceInstance = loadBalancerClient.choose("MOVIE-PROVIDER");
@@ -30,7 +41,7 @@ public class ConsumerController {
         String url = serviceInstance.getUri().toString() + "/movie/" + id;
         System.out.println("id:" + id);
         return restTemplate.getForObject(url,String.class);
-    }
+    }*/
 
     /**
      * 消费提供者提供的固定ip，与Eureka无关
