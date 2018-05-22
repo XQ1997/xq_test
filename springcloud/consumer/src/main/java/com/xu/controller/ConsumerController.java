@@ -13,13 +13,15 @@ public class ConsumerController {
     private RestTemplate restTemplate;
 
     /**
-     * 消费固定ip
+     * 消费提供者提供的固定ip，与Eureka无关
      * @param id
      * @return
      */
-    @GetMapping("/movie/{id}")
+   /* @GetMapping("/movie/{id}")
     public String shop(@PathVariable Integer id){
         String url = "http://localhost:8080/movie/" + id;
         return restTemplate.getForObject(url,String.class);
-    }
+    }*/
+
+
 }
