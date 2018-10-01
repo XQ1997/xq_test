@@ -1,5 +1,6 @@
 package com.xu.controller;
 
+import com.xu.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -15,17 +16,25 @@ public class ConsumerController {
     private RestTemplate restTemplate;
     @Autowired
     private LoadBalancerClient loadBalancerClient;
+    @Autowired
+    private MovieService movieService;
+
+    @GetMapping("/movie/{id:\\d+}")
+    public String shop(@PathVariable Integer id){
+        return movieService.fingByid(id);
+    }
+
 
     /**
-     * 使用ribbon客户端负载均衡器
+     * 第二种使用ribbon客户端负载均衡器
      * @param id
      * @return
      */
-    @GetMapping("/movie/{id:\\d+}")
+   /* @GetMapping("/movie/{id:\\d+}")
     public String shop(@PathVariable Integer id){
         String url = "http://MOVIE-PROVIDER/movie/" + id;
         return restTemplate.getForObject(url,String.class);
-    }
+    }*/
 
 
     /**
