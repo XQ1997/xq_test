@@ -18,8 +18,6 @@ public class FactoryUtil {
             //创建sqlSessionFactory
             SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
             factory = builder.build(reader);
-            //创建sqlsession
-            sqlSession = factory.openSession();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -29,7 +27,7 @@ public class FactoryUtil {
         return factory;
     }
 
-    public static SqlSession getSqlSession() {
-        return sqlSession;
+    public static SqlSession getSqlSession(boolean auto) {
+        return factory.openSession(auto);
     }
 }

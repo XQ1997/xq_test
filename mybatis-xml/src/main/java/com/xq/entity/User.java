@@ -6,6 +6,14 @@ public class User {
     private String userName;
     private String userAddress;
 
+    public User() {
+    }
+
+    public User(String userName, String userAddress) {
+        this.userName = userName;
+        this.userAddress = userAddress;
+    }
+
     public Integer getId() {
         return id;
     }

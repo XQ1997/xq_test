@@ -12,4 +12,9 @@
     <select id="findAll" resultType="User">
         select * from t_user
     </select>
+
+    <!--保存-->
+    <insert id="save" parameterType="User">
+        insert into t_user (user_name,user_address) values (#{userName},#{userAddress})
+    </insert>
 </mapper>

@@ -14,7 +14,7 @@ public class UserTest {
 
     @Before
     public void init(){
-        sqlSession = FactoryUtil.getSqlSession();
+        sqlSession = FactoryUtil.getSqlSession(true);
     }
 
     @Test
@@ -29,6 +29,15 @@ public class UserTest {
         for(User user : userList){
             System.out.println(user);
         }
+    }
+
+    @Test
+    public void savetest(){
+        User user = new User("哪吒","成都");
+        sqlSession.insert("com.xq.mapper.UserMapper.save",user);
+        //sqlSession.commit();
+        //sqlSession.rollback();
+        System.out.println("保存成功");
     }
 
     @After
