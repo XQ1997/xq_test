@@ -1,35 +1,38 @@
 package com.xq.test;
 
 import com.xq.entity.User;
-import org.apache.ibatis.io.Resources;
+import com.xq.util.FactoryUtil;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.io.Reader;
+import java.util.List;
 
 public class UserTest {
 
+    private SqlSession sqlSession = null;
+
+    @Before
+    public void init(){
+        sqlSession = FactoryUtil.getSqlSession();
+    }
+
     @Test
     public void findByIdtest(){
-        SqlSession sqlSession = null;
-        try {
-            //加载主配置文件
-            Reader reader = Resources.getResourceAsReader("mybatis-config.xml");
-            //创建sqlSessionFactory
-            SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
-            SqlSessionFactory factory = builder.build(reader);
-            //创建sqlsession
-            sqlSession = factory.openSession();
-            //操作sql
-            User user = sqlSession.selectOne("com.xq.mapper.UserMapper.findById",2);
+        User user = sqlSession.selectOne("com.xq.mapper.UserMapper.findById",2);
+        System.out.println(user);
+    }
+
+    @Test
+    public void findAlltest(){
+        List<User> userList = sqlSession.selectList("com.xq.mapper.UserMapper.findAll");
+        for(User user : userList){
             System.out.println(user);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            sqlSession.close();
         }
+    }
+
+    @After
+    public void destory(){
+        sqlSession.close();
     }
 }

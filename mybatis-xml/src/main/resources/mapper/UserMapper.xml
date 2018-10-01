@@ -3,7 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xq.mapper.UserMapper">
+    <!--查询单个对象，根据id-->
     <select id="findById" parameterType="int" resultType="User">
         select * from t_user where id = #{id}
+    </select>
+
+    <!--查询所有 返回值类型依然是User，泛型-->
+    <select id="findAll" resultType="User">
+        select * from t_user
     </select>
 </mapper>
