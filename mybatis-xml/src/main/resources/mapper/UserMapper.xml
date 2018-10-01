@@ -17,4 +17,14 @@
     <insert id="save" parameterType="User">
         insert into t_user (user_name,user_address) values (#{userName},#{userAddress})
     </insert>
+
+    <!--删除-->
+    <delete id="delete" parameterType="int">
+        delete from t_user where id = #{id}
+    </delete>
+
+    <!--修改-->
+    <update id="update" parameterType="User">
+        update t_user set user_name = #{userName},user_address = #{userAddress} where id = #{id}
+    </update>
 </mapper>

@@ -40,6 +40,24 @@ public class UserTest {
         System.out.println("保存成功");
     }
 
+    @Test
+    public void deletetest(){
+        sqlSession.delete("com.xq.mapper.UserMapper.delete",3);
+        System.out.println("删除成功");
+    }
+
+    @Test
+    public void updatetest(){
+        User user = sqlSession.selectOne("com.xq.mapper.UserMapper.findById",4);
+        if(user != null){
+            user.setUserAddress("海南");
+            sqlSession.update("com.xq.mapper.UserMapper.update",user);
+            System.out.println("修改成功");
+        }else {
+            System.out.println("数据不存在");
+        }
+    }
+
     @After
     public void destory(){
         sqlSession.close();
