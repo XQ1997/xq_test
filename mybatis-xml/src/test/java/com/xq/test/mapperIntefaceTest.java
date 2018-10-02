@@ -8,7 +8,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class mapperIntefaceTest {
     private SqlSession sqlSession = null;
@@ -60,7 +62,33 @@ public class mapperIntefaceTest {
         }else{
             System.out.println("查无此人");
         }
+    }
 
+    @Test
+    public void page(){
+        List<User> userList = userMapper.page(0,3);
+        for(User user : userList){
+            System.out.println(user);
+        }
+    }
+
+    @Test
+    public void page1(){
+        List<User> userList = userMapper.page1(0,3);
+        for(User user : userList){
+            System.out.println(user);
+        }
+    }
+
+    @Test
+    public void page2(){
+        Map map = new HashMap<String,Integer>();
+        map.put("start",0);
+        map.put("size",3);
+        List<User> userList = userMapper.page2(map);
+        for(User user : userList){
+            System.out.println(user);
+        }
     }
 
     @After

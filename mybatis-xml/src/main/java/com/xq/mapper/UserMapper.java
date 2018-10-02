@@ -1,8 +1,10 @@
 package com.xq.mapper;
 
 import com.xq.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserMapper {
 
@@ -11,4 +13,7 @@ public interface UserMapper {
     int save(User user);
     void update(User user);
     void delete(int id);
+    List<User> page(int start,int page);
+    List<User> page1(@Param("start") int start,@Param("size") int page);
+    List<User> page2(Map<String,Integer> map);
 }

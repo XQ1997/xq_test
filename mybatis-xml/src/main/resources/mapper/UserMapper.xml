@@ -27,4 +27,19 @@
     <update id="update" parameterType="User">
         update t_user set user_name = #{userName},user_address = #{userAddress} where id = #{id}
     </update>
+
+    <!--分页，未加注解-->
+    <select id="page" resultType="User">
+        select * from t_user limit #{arg0},#{arg1}
+    </select>
+
+    <!--分页，加注解-->
+    <select id="page1" resultType="User">
+        select * from t_user limit #{start},#{size}
+    </select>
+
+    <!--封装到map集合中-->
+    <select id="page2" resultType="User" parameterType="map">
+        select * from t_user limit #{start},#{size}
+    </select>
 </mapper>
