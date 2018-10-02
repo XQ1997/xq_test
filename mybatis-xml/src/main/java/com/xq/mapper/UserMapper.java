@@ -1,5 +1,6 @@
 package com.xq.mapper;
 
+import com.xq.entity.Student;
 import com.xq.entity.User;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,4 +17,7 @@ public interface UserMapper {
     List<User> page(int start,int page);
     List<User> page1(@Param("start") int start,@Param("size") int page);
     List<User> page2(Map<String,Integer> map);
+
+    Student findByIdwithclass(int id);
+    Student findByIdwithtag(int id);
 }

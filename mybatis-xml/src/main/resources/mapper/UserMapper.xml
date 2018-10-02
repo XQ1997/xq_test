@@ -42,4 +42,34 @@
     <select id="page2" resultType="User" parameterType="map">
         select * from t_user limit #{start},#{size}
     </select>
+    
+    <resultMap id="basemap" type="com.xq.entity.Student">
+        <id column="id" property="id"/>
+        <result column="stu_name" property="stuName"/>
+        <result column="class_id" property="classId"/>
+    </resultMap>
+    <!--多对一的情况-->
+    <select id="findByIdwithclass" parameterType="int" resultMap="classmap">
+        select * from t_student stu inner join t_class ss on stu.class_id = ss.id where stu.id = #{id} 
+    </select>
+    
+    <resultMap id="classmap" type="com.xq.entity.Student" extends="basemap">
+        <association property="aClass" javaType="com.xq.entity.Class">
+            <id column="id" property="id"/>
+            <result column="class_name" property="className"/>
+            <result column="address" property="address"/>
+        </association>
+    </resultMap>
+
+    <!--一对多的情况-->
+    <select id="findByIdwithtag" parameterType="int" resultMap="tagmap">
+        select stu.id,stu.stu_name,tag.id tid,tag.tag_name from t_student stu inner join t_stu_tag st on stu.id = st.stu_id inner join t_tags tag on st.tag_id = tag.id where stu.id = #{id}
+    </select>
+
+    <resultMap id="tagmap" type="com.xq.entity.Student" extends="basemap">
+        <collection property="tagList" ofType="com.xq.entity.Tag">
+            <id column="tid" property="id"/>
+            <result column="tag_name" property="tagName"/>
+        </collection>
+    </resultMap>
 </mapper>

@@ -1,5 +1,6 @@
 package com.xq.test;
 
+import com.xq.entity.Student;
 import com.xq.entity.User;
 import com.xq.mapper.UserMapper;
 import com.xq.util.FactoryUtil;
@@ -89,6 +90,18 @@ public class mapperIntefaceTest {
         for(User user : userList){
             System.out.println(user);
         }
+    }
+
+    @Test
+    public void findByIdwithclass(){
+        Student student = userMapper.findByIdwithclass(2);
+        System.out.println(student);
+    }
+
+    @Test
+    public void findByIdwithtag(){
+        Student student = userMapper.findByIdwithtag(2);
+        System.out.println(student);
     }
 
     @After
