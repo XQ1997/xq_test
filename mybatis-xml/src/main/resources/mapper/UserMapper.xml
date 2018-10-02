@@ -14,7 +14,7 @@
     </select>
 
     <!--保存-->
-    <insert id="save" parameterType="User">
+    <insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id">
         insert into t_user (user_name,user_address) values (#{userName},#{userAddress})
     </insert>
 

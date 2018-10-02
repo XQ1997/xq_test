@@ -37,9 +37,11 @@ public class mapperIntefaceTest {
 
     @Test
     public void savetest(){
-        User user = new User("董伟","深圳");
-        userMapper.save(user);
+        User user = new User("董卿","深圳");
+        int num = userMapper.save(user);
         System.out.println("保存成功");
+        System.out.println("受影响的行数为：" + num);
+        System.out.println("自动生成的主键值为：" + user.getId());
     }
 
     @Test
